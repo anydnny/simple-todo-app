@@ -3,8 +3,10 @@ import uuid from "react-uuid";
 import AddTodoForm from "./AddTodoForm.js";
 import TodoList from "./TodoList.js";
 import FilterList from "./FilterList.js";
-import AddFilterForm from "./AddFilterForm.js";
+import AddFilterButton from "./AddFilterButton.js";
 import CheckedCount from "./CheckedCount.js";
+
+import "../styles/index.css";
 
 export default function App() {
   const [filterList, setFilterList] = useState([
@@ -16,28 +18,58 @@ export default function App() {
 
   const [addFilterInput, setAddFilterInput] = useState(false);
   const [filterInputValue, setFilterInputValue] = useState("");
+  const [doublicateFilter, setDoublicateFilter] = useState(false);
+  const [doublicateFilterWarning, setDoublicateFilterWarning] = useState(false);
+  const [emptyFilter, setEmptyFilter] = useState(false);
+  const [emptyFilterWarning, setEmptyFilterWarning] = useState(true);
 
   const [todoList, setTodoList] = useState([
     { todoName: "sleep", todoFilter: "home", todoId: uuid() },
     { todoName: "go to work", todoFilter: "work", todoId: uuid() },
   ]); // общий список
+
   const [todoValue, setTodoValue] = useState(""); // знчение в инпуте туду
   const [filteredTodo, setFilteredTodo] = useState([]); // отфильтрованный список
   const [checkedTodoList, setCheckedTodoList] = useState(0); //счётчик завершённых
+  const [emptyTodo, setEmptyTodo] = useState(false);
+  const [emptyTodoWarning, setEmptyTodoWarning] = useState(true);
+
 
   useEffect(() => {
     setFilteredTodo(
       todoList.filter((filter) => filter.todoFilter === currentFilter)
-    );
+    )
   }, [todoList, currentFilter]);
 
+  useEffect(()=>{
+      const list = document.querySelectorAll(".filter__li").forEach(item =>item.classList.remove("filter_active"));
+      const newCurrentFilter = document.getElementById(`${currentFilter}`).classList.add("filter_active");
+
+
+    }, [currentFilter])
+  
+    useEffect(()=>{
+    setCurrentFilter(filterList[filterList.length - 1].filterName)
+  }, [filterList]);
+
+  useEffect(()=>{
+    setDoublicateFilter(filterList?.map(item => item.filterName).includes(filterInputValue));
+  }, [filterInputValue]); 
+
+  useEffect(() =>{
+    setEmptyTodo(todoValue.trim()? true: false); 
+    setEmptyFilter(filterInputValue.trim() ?true:false);
+  }, [todoValue, filterInputValue])
+
   function handleFilterClick(e) {
-    setCurrentFilter(e.target.classList.value);
+    setCurrentFilter(e.target.closest("li").id);
+    
   }
 
   function handleTodoAdd(e) {
     e.preventDefault();
-    setTodoList([
+    setEmptyTodoWarning(emptyTodo)
+    setTodoList(!emptyTodo? [...todoList]:[
       ...todoList,
       { todoName: todoValue, todoFilter: currentFilter, todoId: uuid() },
     ]);
@@ -59,18 +91,25 @@ export default function App() {
   }
   function handleCloseFilterInput(e) {
     e.preventDefault();
+    setFilterInputValue("");
     setAddFilterInput(false);
   }
   function handleSubmitFilterInput(e) {
     e.preventDefault();
-    setFilterList([
+    setDoublicateFilterWarning(doublicateFilter);
+    setEmptyFilterWarning(emptyFilter);
+    
+    setFilterList(!emptyFilter || doublicateFilter?[...filterList]:[
       ...filterList,
       { filterName: filterInputValue, filterId: uuid() },
     ]);
     setFilterInputValue("");
     setAddFilterInput(false);
   }
-
+  function handleFilterDelete(deleteFilterName){
+    setTodoList(todoList.filter(filter => filter.todoFilter !== deleteFilterName));
+    setFilterList(filterList.filter(filter => filter.filterName !== deleteFilterName))
+  }
   function handleTodoValueChange(e) {
     e.preventDefault();
     setTodoValue(e.target.value);
@@ -79,18 +118,21 @@ export default function App() {
     e.preventDefault();
     setFilterInputValue(e.target.value);
   }
-
+  
   return (
     <>
-      <FilterList filterList={filterList} onFilterClick={handleFilterClick} />
-      <AddFilterForm
-        addFilterInput={addFilterInput}
-        filterInputValue={filterInputValue}
-        onFilterInputValueChange={handleFilterInputValueChange}
-        onShowFilterInput={handleShowFilterInput}
-        onSubmitFilterInput={handleSubmitFilterInput}
-        onCloseFilterInput={handleCloseFilterInput}
-      />
+      <div className="filter__section">
+        <FilterList
+          filterList={filterList}
+          onFilterClick={handleFilterClick}
+          onFilterDelete={handleFilterDelete}
+        />
+        <AddFilterButton
+          addFilterInput={addFilterInput}
+          onShowFilterInput={handleShowFilterInput}
+          onCloseFilterInput={handleCloseFilterInput}
+        />
+      </div>
 
       <CheckedCount checkedTodoList={checkedTodoList} />
 
@@ -101,11 +143,20 @@ export default function App() {
         onCheckTodo={handleCheckTodo}
         onDeleteTodo={handleDeleteTodo}
       />
+      <p>
+        {doublicateFilterWarning ? "filter almost here" : null}{" "}
+        {!emptyFilterWarning ? "write filter text" : null}
+      </p>
+      <p>{!emptyTodoWarning ? "Write todo text" : null}</p>
       <AddTodoForm
         todoValue={todoValue}
         currentFilter={currentFilter}
         onTodoAdd={handleTodoAdd}
         onTodoValueChange={handleTodoValueChange}
+        addFilterInput={addFilterInput}
+        filterInputValue={filterInputValue}
+        onFilterInputValueChange={handleFilterInputValueChange}
+        onSubmitFilterInput={handleSubmitFilterInput}
       />
     </>
   );

@@ -1,0 +1,15 @@
+html{
+    font-size: 62.5%;
+    box-sizing: border-box;
+}
+li{
+    list-style-type: none;
+    cursor: pointer;
+}
+
+.filter__section{
+    display: flex;
+    align-items: center;
+    
+    
+}
