@@ -5,7 +5,7 @@ export default function AddFilterButton(props) {
   return (
     
         <button  onClick={!addFilterInput? onShowFilterInput: onCloseFilterInput}  className={"switchButton"+" "+(addFilterInput? "addFilterInputButton": "closeFilterInputButton")}>
-          {!props.addFilterInput? "+": "x"}
+          {!props.addFilterInput? "+": "𐄂"}
         </button>
   )
 }

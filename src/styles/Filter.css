@@ -1,12 +1,14 @@
 .filter__li{
     display: inline-flex;
     position: relative;
+    flex-wrap: nowrap;
     border: .1rem solid black;
     align-items: center;
     justify-content: center;
     padding: .3rem 1rem;
     margin: 0 .5rem;
     transition: .5s ease;
+    margin-top: 1rem;
 }
 .filter__li:nth-child(1){
     margin-left: 0;
@@ -29,7 +31,7 @@
     border: .1rem solid black;
     width: 1rem;
     height: 1.3rem;
-    border-radius: 50%;
+    border-radius: .8rem;
 
     background-color: white;
 
@@ -52,6 +54,7 @@
 
 .filter_active{
     background-color: rgb(183, 255, 199);
+    border-radius: .8rem;
 }
 .filter_active .filter__closeBtn{
     display: block;

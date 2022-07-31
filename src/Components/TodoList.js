@@ -1,10 +1,21 @@
 import React from "react";
 import Todo from "./Todo.js";
+import "../styles/TodoList.css";
 
 export default function TodoList(props) {
+  const listCount = props.todoList.map(item => item.todoName).length;
+  console.log(listCount)
   return (
     <>
-      <ul>
+      <section className="todoList__section">
+      {props.currentFilter !== "all"&& props.filteredTodo?.length === 0 ? <p className="clearTodo">this list is clear :)</p> : null}
+      
+      
+      <div className="todoCount__block">
+        {props.currentFilter !== "all" ? <span>{props.filteredTodo?.length !== 0 && props.filteredTodo?.length}</span> : <span>{listCount}</span>}
+      </div>
+      
+      <ul className="todoList__ul">
         {props.currentFilter !== "all"
           ? props.filteredTodo.map((todo) => (
               <Todo
@@ -22,7 +33,9 @@ export default function TodoList(props) {
                 onCheckTodo={props.onCheckTodo}
               />
             ))}
+            
       </ul>
+      </section>
     </>
   );
 }

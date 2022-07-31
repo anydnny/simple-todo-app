@@ -1,0 +1,30 @@
+form{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 3rem;
+}
+input[type="text"]{
+    width: 15rem;
+    font-size: 1.8rem;
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    
+    outline-color: black;
+    padding-left: 1rem;
+}
+.addBtn{
+    height: 100%;
+    font-size: 1.2rem;
+    font-family: Arial, Helvetica, sans-serif;
+    border: .1rem solid black;
+    background-color: white;
+    margin-left: 1rem;
+    transition: .3s ease;
+    cursor: pointer;
+}
+.addBtn:hover{
+    background-color: rgba(221, 221, 221, 0.214);
+    font-style: italic;
+    border-radius: .5rem;
+}

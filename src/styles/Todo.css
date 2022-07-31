@@ -1,0 +1,69 @@
+.todo__li{
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    border: 1px solid black;
+    border-radius: .8rem;
+    width: 85%;
+    padding: 1.4rem;
+    margin-bottom: 2rem;
+    cursor: default;
+    transition: .15s ease-in-out;
+    word-wrap: break-word;
+}
+.todo__li:hover{
+    -webkit-box-shadow: 0px 10px 32px 7px rgba(67, 71, 73, 0.24);
+-moz-box-shadow: 0px 10px 32px 7px rgba(67, 71, 73, 0.24);
+box-shadow: 0px 10px 32px 7px rgba(67, 71, 73, 0.24);
+}
+.todo__li p{
+    font-size: 2.8rem;
+    margin: 0;
+    max-width: 80%;
+    text-align: end;
+}
+
+.todo__checkBtn{
+    position: relative;
+    border: .1rem solid black;
+    background-color: transparent;
+    border-radius: 50%;
+    width: 10%;
+    max-width: 7rem;
+    transition: .2s ease-in-out;
+    cursor: pointer;
+}
+.todo__checkBtn::before{
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    padding-top: 120%;
+}
+.todo__checkBtn:hover{
+    background-color: rgb(183, 255, 199);
+}
+.todo__deleteBtn{
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: white;
+    transition: .2s ease-in;
+    border-radius: 50%;
+    border: none;
+
+    cursor: pointer;
+
+    position: absolute;
+    top: 0;
+    left: 100%;
+    transform: translate(-50%, -50%);
+}
+.todo__deleteBtn:hover{
+    background-color: rgb(255, 199, 178);
+    border: .1rem solid black;
+}

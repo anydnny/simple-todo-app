@@ -5,7 +5,9 @@ import TodoList from "./TodoList.js";
 import FilterList from "./FilterList.js";
 import AddFilterButton from "./AddFilterButton.js";
 import CheckedCount from "./CheckedCount.js";
+import Warnings from "./Warnings.js";
 
+import "normalize.css";
 import "../styles/index.css";
 
 export default function App() {
@@ -15,6 +17,10 @@ export default function App() {
     { filterName: "home", filterId: uuid() },
   ]); // список филтров
   const [currentFilter, setCurrentFilter] = useState("all"); // выбранный фильтр
+  const [todoList, setTodoList] = useState([
+    { todoName: "sleep", todoFilter: "home", todoId: uuid() },
+    { todoName: "go to work", todoFilter: "work", todoId: uuid() },
+  ]); // общий список
 
   const [addFilterInput, setAddFilterInput] = useState(false);
   const [filterInputValue, setFilterInputValue] = useState("");
@@ -22,12 +28,8 @@ export default function App() {
   const [doublicateFilterWarning, setDoublicateFilterWarning] = useState(false);
   const [emptyFilter, setEmptyFilter] = useState(false);
   const [emptyFilterWarning, setEmptyFilterWarning] = useState(true);
-
-  const [todoList, setTodoList] = useState([
-    { todoName: "sleep", todoFilter: "home", todoId: uuid() },
-    { todoName: "go to work", todoFilter: "work", todoId: uuid() },
-  ]); // общий список
-
+  const [longFilterName, setLongFilterName] = useState(false);
+  
   const [todoValue, setTodoValue] = useState(""); // знчение в инпуте туду
   const [filteredTodo, setFilteredTodo] = useState([]); // отфильтрованный список
   const [checkedTodoList, setCheckedTodoList] = useState(0); //счётчик завершённых
@@ -39,13 +41,12 @@ export default function App() {
     setFilteredTodo(
       todoList.filter((filter) => filter.todoFilter === currentFilter)
     )
+    console.log(currentFilter)
   }, [todoList, currentFilter]);
 
   useEffect(()=>{
       const list = document.querySelectorAll(".filter__li").forEach(item =>item.classList.remove("filter_active"));
       const newCurrentFilter = document.getElementById(`${currentFilter}`).classList.add("filter_active");
-
-
     }, [currentFilter])
   
     useEffect(()=>{
@@ -53,25 +54,37 @@ export default function App() {
   }, [filterList]);
 
   useEffect(()=>{
-    setDoublicateFilter(filterList?.map(item => item.filterName).includes(filterInputValue));
+    setDoublicateFilter(filterList?.map(item => item.filterName).includes(filterInputValue.trim()));
+    setEmptyFilter(filterInputValue.trim().length ? true:false);
+    setLongFilterName(filterInputValue.trim().length >= 20)
   }, [filterInputValue]); 
 
   useEffect(() =>{
-    setEmptyTodo(todoValue.trim()? true: false); 
-    setEmptyFilter(filterInputValue.trim() ?true:false);
-  }, [todoValue, filterInputValue])
+    setEmptyTodo(todoValue.trim().length ? true: false); 
+  }, [todoValue])
+
+  useEffect(()=>{ console.log(emptyTodo)}, [emptyTodo])
+
+  useEffect(()=>{
+    if(!emptyTodoWarning || !emptyFilterWarning || doublicateFilterWarning){
+      const timerId = setTimeout(()=>{
+            setEmptyTodoWarning(true);
+            setEmptyFilterWarning(true);
+            setDoublicateFilterWarning(false)
+          }, 2000)
+          return () => clearTimeout(timerId)
+          }
+    }, [emptyTodoWarning, emptyFilterWarning, doublicateFilterWarning])
 
   function handleFilterClick(e) {
     setCurrentFilter(e.target.closest("li").id);
     
   }
-
   function handleTodoAdd(e) {
     e.preventDefault();
     setEmptyTodoWarning(emptyTodo)
     setTodoList(!emptyTodo? [...todoList]:[
-      ...todoList,
-      { todoName: todoValue, todoFilter: currentFilter, todoId: uuid() },
+      { todoName: todoValue, todoFilter: currentFilter, todoId: uuid() }, ...todoList
     ]);
     setTodoValue("");
   }
@@ -99,7 +112,7 @@ export default function App() {
     setDoublicateFilterWarning(doublicateFilter);
     setEmptyFilterWarning(emptyFilter);
     
-    setFilterList(!emptyFilter || doublicateFilter?[...filterList]:[
+    setFilterList(!emptyFilter || doublicateFilter || longFilterName ?[...filterList]:[
       ...filterList,
       { filterName: filterInputValue, filterId: uuid() },
     ]);
@@ -121,33 +134,21 @@ export default function App() {
   
   return (
     <>
+    <header>
       <div className="filter__section">
-        <FilterList
-          filterList={filterList}
-          onFilterClick={handleFilterClick}
-          onFilterDelete={handleFilterDelete}
-        />
-        <AddFilterButton
-          addFilterInput={addFilterInput}
-          onShowFilterInput={handleShowFilterInput}
-          onCloseFilterInput={handleCloseFilterInput}
-        />
-      </div>
-
+          <FilterList
+            filterList={filterList}
+            onFilterClick={handleFilterClick}
+            onFilterDelete={handleFilterDelete}
+          />
+          <AddFilterButton
+            addFilterInput={addFilterInput}
+            onShowFilterInput={handleShowFilterInput}
+            onCloseFilterInput={handleCloseFilterInput}
+          />
+        </div>
       <CheckedCount checkedTodoList={checkedTodoList} />
-
-      <TodoList
-        currentFilter={currentFilter}
-        filteredTodo={filteredTodo}
-        todoList={todoList}
-        onCheckTodo={handleCheckTodo}
-        onDeleteTodo={handleDeleteTodo}
-      />
-      <p>
-        {doublicateFilterWarning ? "filter almost here" : null}{" "}
-        {!emptyFilterWarning ? "write filter text" : null}
-      </p>
-      <p>{!emptyTodoWarning ? "Write todo text" : null}</p>
+      <Warnings doublicateFilterWarning={doublicateFilterWarning} emptyFilterWarning={emptyFilterWarning} emptyTodoWarning={emptyTodoWarning} longFilterName={longFilterName}/>
       <AddTodoForm
         todoValue={todoValue}
         currentFilter={currentFilter}
@@ -157,7 +158,22 @@ export default function App() {
         filterInputValue={filterInputValue}
         onFilterInputValueChange={handleFilterInputValueChange}
         onSubmitFilterInput={handleSubmitFilterInput}
+        longFilterName={longFilterName}
       />
+    </header>
+    <main>
+    <TodoList
+        currentFilter={currentFilter}
+        filteredTodo={filteredTodo}
+        todoList={todoList}
+        onCheckTodo={handleCheckTodo}
+        onDeleteTodo={handleDeleteTodo}
+      />
+    </main>
+      
+      
+     
+      
     </>
   );
 }

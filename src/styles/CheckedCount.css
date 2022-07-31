@@ -1,0 +1,11 @@
+.checkedCount__block{
+    margin-bottom: 2rem;
+}
+.checkedCount__span{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.8rem;
+
+}
+.checkedCount__span > span{
+    font-style: italic;
+}
