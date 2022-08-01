@@ -1,0 +1,17 @@
+.footer{
+    height: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 5rem;
+}
+.footer h2{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 3rem;
+    font-style: italic;
+    font-weight: normal;
+    cursor: pointer;
+}
+.footer h2:hover{
+    text-decoration: underline;
+}

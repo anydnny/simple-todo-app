@@ -6,9 +6,11 @@ import FilterList from "./FilterList.js";
 import AddFilterButton from "./AddFilterButton.js";
 import CheckedCount from "./CheckedCount.js";
 import Warnings from "./Warnings.js";
+import Footer from "./Footer.js";
 
 import "normalize.css";
 import "../styles/index.css";
+import Logo from "./Logo.js";
 
 export default function App() {
   const [filterList, setFilterList] = useState([
@@ -45,8 +47,8 @@ export default function App() {
   }, [todoList, currentFilter]);
 
   useEffect(()=>{
-      const list = document.querySelectorAll(".filter__li").forEach(item =>item.classList.remove("filter_active"));
-      const newCurrentFilter = document.getElementById(`${currentFilter}`).classList.add("filter_active");
+      document.querySelectorAll(".filter__li").forEach(item =>item.classList.remove("filter_active"));
+      document.getElementById(`${currentFilter}`).classList.add("filter_active");
     }, [currentFilter])
   
     useEffect(()=>{
@@ -135,6 +137,7 @@ export default function App() {
   return (
     <>
     <header>
+      <Logo />
       <div className="filter__section">
           <FilterList
             filterList={filterList}
@@ -170,7 +173,7 @@ export default function App() {
         onDeleteTodo={handleDeleteTodo}
       />
     </main>
-      
+      <Footer />
       
      
       

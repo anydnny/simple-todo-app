@@ -8,12 +8,11 @@ export default function TodoList(props) {
   return (
     <>
       <section className="todoList__section">
-      {props.currentFilter !== "all"&& props.filteredTodo?.length === 0 ? <p className="clearTodo">this list is clear :)</p> : null}
+      {(props.currentFilter !== "all"&& props.filteredTodo?.length === 0) || (props.currentFilter === "all" && listCount===0) ? <p className="clearTodo">Nothing</p> : null}
       
-      
-      <div className="todoCount__block">
+      {(props.currentFilter ==="all" && listCount === 0) || (props.currentFilter !== "all"&& props.filteredTodo?.length === 0) ?  null : <div className="todoCount__block">
         {props.currentFilter !== "all" ? <span>{props.filteredTodo?.length !== 0 && props.filteredTodo?.length}</span> : <span>{listCount}</span>}
-      </div>
+      </div>}
       
       <ul className="todoList__ul">
         {props.currentFilter !== "all"
