@@ -43,7 +43,6 @@ export default function App() {
     setFilteredTodo(
       todoList.filter((filter) => filter.todoFilter === currentFilter)
     )
-    console.log(currentFilter)
   }, [todoList, currentFilter]);
 
   useEffect(()=>{
@@ -65,7 +64,6 @@ export default function App() {
     setEmptyTodo(todoValue.trim().length ? true: false); 
   }, [todoValue])
 
-  useEffect(()=>{ console.log(emptyTodo)}, [emptyTodo])
 
   useEffect(()=>{
     if(!emptyTodoWarning || !emptyFilterWarning || doublicateFilterWarning){

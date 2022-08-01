@@ -4,7 +4,6 @@ import "../styles/TodoList.css";
 
 export default function TodoList(props) {
   const listCount = props.todoList.map(item => item.todoName).length;
-  console.log(listCount)
   return (
     <>
       <section className="todoList__section">

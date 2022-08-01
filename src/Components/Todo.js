@@ -11,7 +11,15 @@ export default function Todo(props) {
           {props.todo.todoName}
         </p>
         <button className="todo__deleteBtn" onClick={() => props.onDeleteTodo(props.todo.todoId)}>
-          𐄂
+        <svg
+        width="7"
+        height="7"
+        viewBox="0 0 18 18"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M1 17L17 1M1 1L17 17" stroke="black" strokeWidth="3" />
+      </svg>
         </button>
       </li>
     </>

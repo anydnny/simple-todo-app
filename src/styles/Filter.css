@@ -25,12 +25,13 @@
 .filter__closeBtn{
     display: none;
     position: absolute;
-    top: -50%;
+    padding: 0;
+    top: -55%;
     left: 100%;
     transform:translate(-50%, 70%);
     border: .1rem solid black;
-    width: 1rem;
-    height: 1.3rem;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: .8rem;
 
     background-color: white;
