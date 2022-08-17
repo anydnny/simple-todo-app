@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import uuid from "react-uuid";
 import AddTodoForm from "./Header/AddTodoForm.js";
 import TodoList from "./Main/TodoList.js";
@@ -41,6 +41,7 @@ export default function App() {
   const [emptyTodo, setEmptyTodo] = useState(false);
   const [emptyTodoWarning, setEmptyTodoWarning] = useState(true);
 
+ 
 
   useEffect(() => {
     setFilteredTodo(
@@ -65,8 +66,7 @@ export default function App() {
 
   useEffect(() =>{
     setEmptyTodo(todoValue.trim().length ? true: false); 
-  }, [todoValue])
-
+  }, [todoValue]);
 
   useEffect(()=>{
     if(!emptyTodoWarning || !emptyFilterWarning || doublicateFilterWarning){

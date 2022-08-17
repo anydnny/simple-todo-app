@@ -24,3 +24,8 @@ li{
 .header{
     padding-left: 4rem;
 }
+@media screen and (width < 320px){
+    .header{
+        padding-left: 2.5rem;
+    }
+}
