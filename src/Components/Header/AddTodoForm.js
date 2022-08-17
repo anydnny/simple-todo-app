@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/AddTodoForm.css";
+import "../../styles/AddTodoForm.css";
 
 export default function AddTodoForm(props){
     const {addFilterInput} = props;

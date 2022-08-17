@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/CheckedCount.css";
+import "../../styles/CheckedCount.css";
 
 export default function CheckedCount(props) {
   return (

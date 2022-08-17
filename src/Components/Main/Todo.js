@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Todo.css";
+import "../../styles/Todo.css";
 
 export default function Todo(props) {
   return (

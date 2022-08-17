@@ -1,6 +1,6 @@
 import React from "react";
 import Todo from "./Todo.js";
-import "../styles/TodoList.css";
+import "../../styles/TodoList.css";
 
 export default function TodoList(props) {
   const listCount = props.todoList.map(item => item.todoName).length;

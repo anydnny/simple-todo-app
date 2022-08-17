@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Warnings.css";
+import "../../styles/Warnings.css";
 
 export default function Warnings({doublicateFilterWarning,emptyFilterWarning,emptyTodoWarning,longFilterName}){
 

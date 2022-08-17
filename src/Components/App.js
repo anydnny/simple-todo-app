@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import uuid from "react-uuid";
-import AddTodoForm from "./AddTodoForm.js";
-import TodoList from "./TodoList.js";
-import FilterList from "./FilterList.js";
-import AddFilterButton from "./AddFilterButton.js";
-import CheckedCount from "./CheckedCount.js";
-import Warnings from "./Warnings.js";
+import AddTodoForm from "./Header/AddTodoForm.js";
+import TodoList from "./Main/TodoList.js";
+import FilterList from "./Header/FilterList.js";
+import AddFilterButton from "./Header/AddFilterButton.js";
+import CheckedCount from "./Header/CheckedCount.js";
+import Warnings from "./Header/Warnings.js";
 import Footer from "./Footer.js";
+import Header from "./Header/Header.js";
+import Section from "./Section.js";
+import Main from "./Main/Main.js";
 
 import "normalize.css";
 import "../styles/index.css";
-import Logo from "./Logo.js";
+import Logo from "./Header/Logo.js";
 
 export default function App() {
   const [filterList, setFilterList] = useState([
@@ -134,9 +137,9 @@ export default function App() {
   
   return (
     <>
-    <header>
-      <Logo />
-      <div className="filter__section">
+      <Header>
+        <Logo />
+        <Section className="filter__section">
           <FilterList
             filterList={filterList}
             onFilterClick={handleFilterClick}
@@ -147,34 +150,36 @@ export default function App() {
             onShowFilterInput={handleShowFilterInput}
             onCloseFilterInput={handleCloseFilterInput}
           />
-        </div>
-      <CheckedCount checkedTodoList={checkedTodoList} />
-      <Warnings doublicateFilterWarning={doublicateFilterWarning} emptyFilterWarning={emptyFilterWarning} emptyTodoWarning={emptyTodoWarning} longFilterName={longFilterName}/>
-      <AddTodoForm
-        todoValue={todoValue}
-        currentFilter={currentFilter}
-        onTodoAdd={handleTodoAdd}
-        onTodoValueChange={handleTodoValueChange}
-        addFilterInput={addFilterInput}
-        filterInputValue={filterInputValue}
-        onFilterInputValueChange={handleFilterInputValueChange}
-        onSubmitFilterInput={handleSubmitFilterInput}
-        longFilterName={longFilterName}
-      />
-    </header>
-    <main>
-    <TodoList
-        currentFilter={currentFilter}
-        filteredTodo={filteredTodo}
-        todoList={todoList}
-        onCheckTodo={handleCheckTodo}
-        onDeleteTodo={handleDeleteTodo}
-      />
-    </main>
+        </Section>
+        <CheckedCount checkedTodoList={checkedTodoList} />
+        <Warnings
+          doublicateFilterWarning={doublicateFilterWarning}
+          emptyFilterWarning={emptyFilterWarning}
+          emptyTodoWarning={emptyTodoWarning}
+          longFilterName={longFilterName}
+        />
+        <AddTodoForm
+          todoValue={todoValue}
+          currentFilter={currentFilter}
+          onTodoAdd={handleTodoAdd}
+          onTodoValueChange={handleTodoValueChange}
+          addFilterInput={addFilterInput}
+          filterInputValue={filterInputValue}
+          onFilterInputValueChange={handleFilterInputValueChange}
+          onSubmitFilterInput={handleSubmitFilterInput}
+          longFilterName={longFilterName}
+        />
+      </Header>
+      <Main>
+        <TodoList
+          currentFilter={currentFilter}
+          filteredTodo={filteredTodo}
+          todoList={todoList}
+          onCheckTodo={handleCheckTodo}
+          onDeleteTodo={handleDeleteTodo}
+        />
+      </Main>
       <Footer />
-      
-     
-      
     </>
   );
 }

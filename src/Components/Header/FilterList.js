@@ -1,6 +1,6 @@
 import React from "react";
 import Filter from "./Filter";
-import "../styles/FilterList.css"
+import "../../styles/FilterList.css"
 
 export default function FilterList(props) {
   const filterList = document.querySelector(".filterList__ul");
