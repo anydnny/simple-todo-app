@@ -16,16 +16,19 @@ import "../styles/index.css";
 import Logo from "./Header/Logo.js";
 
 export default function App() {
-  const [filterList, setFilterList] = useState([
-    { filterName: "all", filterId: uuid() },
-    { filterName: "work", filterId: uuid() },
-    { filterName: "home", filterId: uuid() },
-  ]); // список филтров
+  const [filterList, setFilterList] = useState(() => {
+    return localStorage.filters ? JSON.parse(localStorage.getItem("filters")) : [
+      { filterName: "all", filterId: uuid() },
+      { filterName: "test", filterId: uuid() }
+    ]
+  }); // список филтров
   const [currentFilter, setCurrentFilter] = useState("all"); // выбранный фильтр
-  const [todoList, setTodoList] = useState([
-    { todoName: "sleep", todoFilter: "home", todoId: uuid() },
-    { todoName: "go to work", todoFilter: "work", todoId: uuid() },
-  ]); // общий список
+  const [todoList, setTodoList] = useState(() => {
+    return localStorage.todoList? JSON.parse(localStorage.getItem("todoList")) : [
+      { todoName: "left button to check todo", todoFilter: "test", todoId: uuid() },
+      { todoName: "cross button to delete todo", todoFilter: "test", todoId: uuid() },
+    ]
+  }); // общий список
 
   const [addFilterInput, setAddFilterInput] = useState(false);
   const [filterInputValue, setFilterInputValue] = useState("");
@@ -37,25 +40,23 @@ export default function App() {
   
   const [todoValue, setTodoValue] = useState(""); // знчение в инпуте туду
   const [filteredTodo, setFilteredTodo] = useState([]); // отфильтрованный список
-  const [checkedTodoList, setCheckedTodoList] = useState(0); //счётчик завершённых
+  const [checkedTodoList, setCheckedTodoList] = useState(()=> localStorage.checkedCount?Number.parseInt(localStorage.getItem("checkedCount"), 10):0); //счётчик завершённых
   const [emptyTodo, setEmptyTodo] = useState(false);
   const [emptyTodoWarning, setEmptyTodoWarning] = useState(true);
-
- 
 
   useEffect(() => {
     setFilteredTodo(
       todoList.filter((filter) => filter.todoFilter === currentFilter)
     )
   }, [todoList, currentFilter]);
-
+  
   useEffect(()=>{
       document.querySelectorAll(".filter__li").forEach(item =>item.classList.remove("filter_active"));
       document.getElementById(`${currentFilter}`).classList.add("filter_active");
     }, [currentFilter])
   
     useEffect(()=>{
-    setCurrentFilter(filterList[filterList.length - 1].filterName)
+      setCurrentFilter(filterList[filterList.length - 1].filterName)
   }, [filterList]);
 
   useEffect(()=>{
@@ -91,6 +92,9 @@ export default function App() {
     ]);
     setTodoValue("");
   }
+  useEffect(() => {
+    localStorage.setItem("todoList", JSON.stringify(todoList))
+  }, [todoList])
 
   function handleDeleteTodo(id) {
     setTodoList(todoList.filter((todo) => todo.todoId !== id));
@@ -100,6 +104,9 @@ export default function App() {
     setCheckedTodoList((prev) => prev + 1);
     setTodoList(todoList.filter((todo) => todo.todoId !== id));
   }
+  useEffect(()=>{
+    localStorage.setItem("checkedCount", checkedTodoList + "")
+  }, [checkedTodoList]);
 
   function handleShowFilterInput(e) {
     e.preventDefault();
@@ -122,6 +129,10 @@ export default function App() {
     setFilterInputValue("");
     setAddFilterInput(false);
   }
+  useEffect(() => {
+    localStorage.setItem("filters", JSON.stringify(filterList))
+  }, [filterList])
+
   function handleFilterDelete(deleteFilterName){
     setTodoList(todoList.filter(filter => filter.todoFilter !== deleteFilterName));
     setFilterList(filterList.filter(filter => filter.filterName !== deleteFilterName))
