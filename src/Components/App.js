@@ -28,7 +28,7 @@ export default function App() {
   const [todoList, setTodoList] = useState(() => {
     return localStorage.todoList? JSON.parse(localStorage.getItem("todoList")) : [
       { todoName: "⬅ left button to check todo", todoFilter: "hello!", todoId: uuid()},
-      { todoName: "cross button to delete todo ⬆", todoFilter: "hello!", todoId: uuid()},
+      { todoName: "⬆ cross button to delete todo", todoFilter: "hello!", todoId: uuid()},
       { todoName: "+ button to create new list", todoFilter: "hello!", todoId: uuid()}
     ]
   }); // общий список
@@ -69,7 +69,7 @@ export default function App() {
     ]);
     setTodoList([
       { todoName: "⬅ left button to check todo", todoFilter: "hello!", todoId: uuid() },
-      { todoName: "cross button to delete todo ⬆", todoFilter: "hello!", todoId: uuid() },
+      { todoName: "⬆ cross button to delete todo", todoFilter: "hello!", todoId: uuid() },
       { todoName: "+ button to create new list", todoFilter: "hello!", todoId: uuid() }
     ]);
     setCheckedTodoList(0);

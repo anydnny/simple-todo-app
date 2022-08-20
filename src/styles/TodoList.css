@@ -1,6 +1,6 @@
 .todoList__section{
     width: 100%;
-    height: calc(100vh - 21.1rem - 10rem);
+    height: 98%;
     overflow: hidden;
     display: flex;
     align-items: center;
