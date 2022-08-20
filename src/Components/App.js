@@ -10,23 +10,26 @@ import Footer from "./Footer.js";
 import Header from "./Header/Header.js";
 import Section from "./Section.js";
 import Main from "./Main/Main.js";
+import Info from "./Info.js"
+import Logo from "./Header/Logo.js";
 
 import "normalize.css";
 import "../styles/index.css";
-import Logo from "./Header/Logo.js";
+
 
 export default function App() {
   const [filterList, setFilterList] = useState(() => {
     return localStorage.filters ? JSON.parse(localStorage.getItem("filters")) : [
       { filterName: "all", filterId: uuid() },
-      { filterName: "test", filterId: uuid() }
+      { filterName: "hello!", filterId: uuid() }
     ]
   }); // список филтров
   const [currentFilter, setCurrentFilter] = useState("all"); // выбранный фильтр
   const [todoList, setTodoList] = useState(() => {
     return localStorage.todoList? JSON.parse(localStorage.getItem("todoList")) : [
-      { todoName: "left button to check todo", todoFilter: "test", todoId: uuid() },
-      { todoName: "cross button to delete todo", todoFilter: "test", todoId: uuid() },
+      { todoName: "⬅ left button to check todo", todoFilter: "hello!", todoId: uuid()},
+      { todoName: "cross button to delete todo ⬆", todoFilter: "hello!", todoId: uuid()},
+      { todoName: "+ button to create new list", todoFilter: "hello!", todoId: uuid()}
     ]
   }); // общий список
 
@@ -43,6 +46,36 @@ export default function App() {
   const [checkedTodoList, setCheckedTodoList] = useState(()=> localStorage.checkedCount?Number.parseInt(localStorage.getItem("checkedCount"), 10):0); //счётчик завершённых
   const [emptyTodo, setEmptyTodo] = useState(false);
   const [emptyTodoWarning, setEmptyTodoWarning] = useState(true);
+
+  const [infoActive, setInfoActive] = useState(false);
+  const [areYouSure, setAreYouSure] = useState(false);
+
+  function handleInfoClick(e){
+    setInfoActive(true)
+  }
+  function handleOutsideClick(e){
+    if(e.target.classList.contains("info") || e.target.closest(".info__crossSec") || e.target.closest(".no")){
+      setInfoActive(false);
+      setAreYouSure(false);
+    }
+  }
+  function handleAreYouSureClick(){
+    setAreYouSure(!areYouSure)
+  }
+  function handleAreYouSureReset(){
+    setFilterList([
+      { filterName: "all", filterId: uuid() },
+      { filterName: "hello!", filterId: uuid() }
+    ]);
+    setTodoList([
+      { todoName: "⬅ left button to check todo", todoFilter: "hello!", todoId: uuid() },
+      { todoName: "cross button to delete todo ⬆", todoFilter: "hello!", todoId: uuid() },
+      { todoName: "+ button to create new list", todoFilter: "hello!", todoId: uuid() }
+    ]);
+    setCheckedTodoList(0);
+    setInfoActive(false);
+    setAreYouSure(false)
+  }
 
   useEffect(() => {
     setFilteredTodo(
@@ -190,7 +223,8 @@ export default function App() {
           onDeleteTodo={handleDeleteTodo}
         />
       </Main>
-      <Footer />
+      {infoActive ? <Info onOutsideClick={handleOutsideClick} onAreYouSureClick={handleAreYouSureClick} onAreYouSureReset={handleAreYouSureReset} areYouSure={areYouSure}/> : null}
+      <Footer onInfoClick={handleInfoClick} />
     </>
   );
 }
