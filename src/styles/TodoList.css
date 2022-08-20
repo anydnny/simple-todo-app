@@ -40,7 +40,10 @@
 
 @media screen and (width < 424px){
     .todoList__ul{
-        width: 90%;
+        width: 95%;
+    }
+    .todoCount__block{
+        margin: 1rem 0;
     }
 }
 @media screen and (width >= 425px) and (width < 767px){

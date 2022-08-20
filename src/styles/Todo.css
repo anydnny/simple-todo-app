@@ -68,3 +68,18 @@ box-shadow: 0px 10px 32px 7px rgba(67, 71, 73, 0.24);
     background-color: rgb(255, 199, 178);
     border: .1rem solid black;
 }
+
+@media screen and (width < 424px){
+    .todo__li p{
+        font-size: 2rem;
+    }
+    .todo__checkBtn{
+        min-width: 3.5rem;
+        min-height: 3.5rem;
+    }
+    .todo__li:hover{
+        -webkit-box-shadow: 0px 5px 15px 3px rgba(67, 71, 73, 0.24);
+    -moz-box-shadow: 0px 5px 15px 3px rgba(67, 71, 73, 0.24);
+    box-shadow: 0px 5px 15px 3px rgba(67, 71, 73, 0.24);
+    }
+}

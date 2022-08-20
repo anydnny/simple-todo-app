@@ -24,6 +24,9 @@ li{
 .header{
     padding-left: 4rem;
 }
+.main{
+    height: calc(100vh - 25.6rem);
+}
 @media screen and (width < 320px){
     .header{
         padding-left: 2.5rem;

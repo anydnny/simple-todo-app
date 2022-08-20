@@ -21,7 +21,6 @@
 .addFilterInputButton{
     background-color: rgb(255, 199, 178);
     border-radius: .8rem;
-    
 }
 .closeFilterInputButton svg{
     transform: rotate(45deg);

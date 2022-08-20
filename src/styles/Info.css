@@ -115,9 +115,7 @@
 }
 @media screen and (max-width: 615px){
     .info__card{
-
-        width: 80vw;
-        min-height: 55rem;
+        width: 90vw;
         padding: 1rem;
     }
     .info__header h3{
